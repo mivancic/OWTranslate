@@ -12,6 +12,7 @@ class OWTranslateTranslationFileGenerator {
     public $languageList;
     
     private $tabKey;
+    public $DOMimpl;
     
     /**
 	*	@desc		Constructeur
@@ -22,6 +23,7 @@ class OWTranslateTranslationFileGenerator {
 	*/	
     public function __construct() {
         try {
+            $this->DOMimpl = new DOMImplementation();
             $this->tabPath = array();
             $this->tabFile = array();
             $this->tabKey = array();
@@ -244,8 +246,8 @@ class OWTranslateTranslationFileGenerator {
 	*/
     public function addTranslationFile($file) {
 
-		$doctype = DOMImplementation::createDocumentType("TS");
-        $tsFile = DOMImplementation::createDocument(null, 'TS', $doctype);
+		$doctype = $this->DOMimpl->createDocumentType("TS");
+        $tsFile = $this->DOMimpl->createDocument(null, 'TS', $doctype);
         $tsFile->encoding = 'UTF-8';
         $tsFile->formatOutput = true;
 

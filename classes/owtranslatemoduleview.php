@@ -12,7 +12,7 @@ class OWTranslateModuleView {
 		$parseFile = new OWTranslateParseFile($parseFileParams);
 		$dataList = $parseFile->getListToShow();	
 		$dataValues = $parseFile->getDataValues();	
-		
+
 		// get all context
 		$contextList = $parseFile->getAllContext();
 		
@@ -138,7 +138,7 @@ class OWTranslateModuleView {
 	*	@copyright	2012
 	*	@version 	1.1
 	*/	
-	public function editTranslation($Params) {
+	public static function editTranslation($Params) {
 		// get the list of translation file
 		$fileTranslationList = self::getTranslationListFile();	
 		
@@ -153,7 +153,8 @@ class OWTranslateModuleView {
 			try {
 				$parseFile = new OWTranslateParseFile($params);
 				$parseFile->setTranslation();
-				eZHTTPTool::redirect('/translate/list');
+
+                self::redirect('/translate/list');
 			} catch (Exception $e) {
 				eZLog::write($e, 'owtranslate.log');
 			}
@@ -184,7 +185,16 @@ class OWTranslateModuleView {
 			}
 		}
 	}
-	
+
+    public static function redirect($uriString){
+        $url = null;
+        $currentSiteAccess = eZSiteAccess::current();
+        if ( $currentSiteAccess )
+            $url = '/' . $currentSiteAccess['name'] . $uriString;
+
+        eZHTTPTool::redirect($url);
+    }
+
 	/**
 	*	@desc		The view : generation
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
@@ -242,7 +252,7 @@ class OWTranslateModuleView {
 				'dataKey'			  	=> $dataKey,
 				'translate'				=> array($localeKey => $_POST['value'])
 			);
-			
+
 			try {
 				$parseFile = new OWTranslateParseFile($params);
 				if ($parseFile->setTranslation()) {
@@ -252,13 +262,13 @@ class OWTranslateModuleView {
 					echo $currentTranslation[$localeKey];
 				}
 				
-				$Result = array('pagelayout' => false);
+				$Result = array('pagelayout' => false, 'content' => '');
 				return $Result;
 			} catch (Exception $e) {
 				eZLog::write($e, 'owtranslate.log');
 			}
 		} else {
-			$Result = array('pagelayout' => false);
+            $Result = array('pagelayout' => false, 'content' => '');
 			return $Result;
 		}
 	}

@@ -1,7 +1,7 @@
 <?php /*
  
 [ExtensionSettings]
-DesignExtensions[]=owtranslate
+DesignExtensions[]=OWTranslate
 
 [JavaScriptSettings]
 BackendJavaScriptList[]=jquery.jeditable.js

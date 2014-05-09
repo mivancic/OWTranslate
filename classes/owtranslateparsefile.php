@@ -209,7 +209,7 @@ class OWTranslateParseFile {
 						try {
 							$query = "//context[name=".(strpos($sourceKey, "'") === false ? "'$sourceKey'" : "\"$sourceKey\"")."]/message[source=".(strpos($message, "'") === false ? "'$message'" : "\"$message\"")."]/translation";
 							$element = $xml->xpath($query);
-							$this->dataValues[$localeKey][$message] = (string)$element[0];
+                            $this->dataValues[$localeKey][$message] = (string)$element[0];
 						} catch (Exception $e) {
 							eZLog::write($e, 'owtranslate.log');
 						}

@@ -1,6 +1,6 @@
 {*?template charset=UTF-8*}
 
-{if $numberTotal|not|and( ezhttp_hasvariable( 'todo', 'get' )|not )}
+{*if $numberTotal|not|and( ezhttp_hasvariable( 'todo', 'get' )|not )*}
 	<div class="box-header">
 	    <div class="button-left">
 	        <h2 class="context-title">{'Translation'|i18n('owtranslate')}</h2>
@@ -14,7 +14,7 @@
 	       <p>{"Before anything else, you have to generate the files of translations to be homogeneous."|i18n('owtranslate')}<a href={'/translate/generation'|ezurl()}>{'Generation'|i18n('owtranslate')}</a></p>
 	    </div>
 	</div>
-{else}
+{*else*}
 			
 	{def
 	    $localeGet    = false()
@@ -67,4 +67,4 @@
 	    </div></div></div>
 	</div>
 	{undef}
-{/if}
+{*/if*}

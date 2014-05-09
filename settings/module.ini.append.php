@@ -1,7 +1,7 @@
 <?php /*
  
 [ModuleSettings] 
-ExtensionRepositories[]=owtranslate
+ExtensionRepositories[]=OWTranslate
 ModuleList[]=translate
  
 */ ?>

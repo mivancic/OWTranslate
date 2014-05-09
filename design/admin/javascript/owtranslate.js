@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.edit').editable('/translate/ajax_edit', {
+    $('.edit').editable('/administracija/translate/ajax_edit', {
     	onblur:	'submit',
         cssclass : 'translation_edit',
         indicator : 'Saving...',
