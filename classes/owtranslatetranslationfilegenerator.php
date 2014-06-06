@@ -1,26 +1,26 @@
 <?php
 /**
-*	@desc 		class OWTranslateTranslationFileGenerator		
+*	@desc 		class OWTranslateTranslationFileGenerator
 *	@author 	David LE RICHE <david.leriche@openwide.fr>
 *	@copyright	2012
 *	@version 	1.1
 */
 class OWTranslateTranslationFileGenerator {
-    
+
     public $tabPath;
     public $tabFile;
     public $languageList;
-    
+
     private $tabKey;
     public $DOMimpl;
-    
+
     /**
 	*	@desc		Constructeur
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
 	*	@return		void
 	*	@copyright	2012
 	*	@version 	1.1
-	*/	
+	*/
     public function __construct() {
         try {
             $this->DOMimpl = new DOMImplementation();
@@ -31,9 +31,9 @@ class OWTranslateTranslationFileGenerator {
             echo $e;
         }
     }
-    
+
     /**
-	*	@desc		Add path to the list 
+	*	@desc		Add path to the list
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
 	*	@params		string	$path => path for check files
 	*	@return		void
@@ -49,9 +49,9 @@ class OWTranslateTranslationFileGenerator {
             }
         }
     }
-    
+
     /**
-	*	@desc		Add file to the list 
+	*	@desc		Add file to the list
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
 	*	@params		string	$file => file for checing
 	*	@return		void
@@ -67,7 +67,7 @@ class OWTranslateTranslationFileGenerator {
             }
         }
     }
-    
+
     /**
 	*	@desc		Get the list of path
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
@@ -82,9 +82,9 @@ class OWTranslateTranslationFileGenerator {
             $listPath .= $path . ($i != sizeof($this->tabPath) ? "\n" : '');
             $i++;
         }
-        return $listPath;   
+        return $listPath;
     }
-    
+
     /**
 	*	@desc		Get the list of file
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
@@ -101,7 +101,7 @@ class OWTranslateTranslationFileGenerator {
         }
         return $listFile;
     }
-    
+
     /**
 	*	@desc		Analyse all files to find translation
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
@@ -126,13 +126,13 @@ class OWTranslateTranslationFileGenerator {
                 }
             }
             fclose($fp);
-            $finalMatches = array_merge($finalMatches, $matches);            
+            $finalMatches = array_merge($finalMatches, $matches);
             foreach($finalMatches as $fileType => $matchList) {
-            	foreach ($matchList as $match) {					            	
+            	foreach ($matchList as $match) {
 	                $tradKeys = ($fileType == 'template'  ? $match[2] : $match[1]);
 	                $tradValues = ($fileType == 'template'  ? $match[1] : $match[2]);
 	                foreach ($tradKeys as $key => $value) {
-	                    if (!isset($tabTrad[$value])) {	                    	
+	                    if (!isset($tabTrad[$value])) {
 	                        $tabTrad[$value] = array();
 	                    }
 	                }
@@ -147,7 +147,7 @@ class OWTranslateTranslationFileGenerator {
         $this->tabKey = $tabTrad;
         return $tabTrad;
     }
-    
+
     /**
 	*	@desc		Generate xml file for all locale on your site with all translation found
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
@@ -157,12 +157,12 @@ class OWTranslateTranslationFileGenerator {
 	*/
     public function generateXML() {
     	$this->languageList = eZContentLanguage::fetchList();
-    	$directoryMainExtension = eZINI::instance('owtranslate.ini')->variable( 'MainExtension', 'directory');		
+    	$directoryMainExtension = eZINI::instance('owtranslate.ini')->variable( 'MainExtension', 'directory');
 		$baseDirectory = eZExtension::baseDirectory().'/'.$directoryMainExtension.'/translations';
     	$this->createLocaleDirIfNotExist($baseDirectory);
-    	
+
         $localeOverride = eZINI::instance('owtranslate.ini')->variable( 'LocaleOverride', 'locale');
-        
+
         // verification file translation exist
         foreach ($this->languageList as $language) {
         	$locale = (array_key_exists($language->Locale, $localeOverride) ? $localeOverride[$language->Locale] : $language->Locale);
@@ -260,17 +260,17 @@ class OWTranslateTranslationFileGenerator {
                 $message = $tsFile->createElement('message');
                 $source = $tsFile->createElement('source', htmlspecialchars($element));
                 $translation = $tsFile->createElement('translation');
-                
+
                 $message->appendChild($source);
                 $message->appendChild($translation);
-                $context->appendChild($message);             
+                $context->appendChild($message);
             }
             $ts->appendChild($context);
         }
         $saveXml = $tsFile->save($file, LIBXML_NOEMPTYTAG);
         return $saveXml;
     }
-    
+
     /**
 	*	@desc		Create all local directory for every language of your site
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
@@ -290,7 +290,7 @@ class OWTranslateTranslationFileGenerator {
     		}
     	}
     }
-    
+
     /**
 	*	@desc		Scan directory to find translation
 	*	@author 	David LE RICHE <david.leriche@openwide.fr>
@@ -303,7 +303,7 @@ class OWTranslateTranslationFileGenerator {
         if ($directory === null) {
             throw new Exception('Directory param can not be null');
         }
-        
+
         try {
             $openDirectory = opendir($directory);
             $tabFile = array();
@@ -317,7 +317,7 @@ class OWTranslateTranslationFileGenerator {
                 'flash',
             );
             while($element = readdir($openDirectory)) {
-                $path = $directory .'/'. $element;   
+                $path = $directory .'/'. $element;
                 if (is_dir($path) && !in_array($element, $tabExclude)) {
                     $tabFile = array_merge($tabFile, self::scanDirectory($path));
                 } else {

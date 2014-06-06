@@ -1,4 +1,6 @@
 {*?template charset=UTF-8*}
+{ezscript_require(array('jquery.jeditable.js', 'owtranslate.js'))}
+{ezcss_require(array('owtranslate.css'))}
 {def
     $localeGet = false()
     $sourceKeyGet = false()

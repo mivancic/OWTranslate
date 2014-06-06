@@ -1,18 +1,23 @@
 $(document).ready(function() {
-    $('.edit').editable('/administracija/translate/ajax_edit', {
+    $('.edit').editable('/administration/translate/ajax_edit', {
     	onblur:	'submit',
         cssclass : 'translation_edit',
         indicator : 'Saving...',
         tooltip   : 'Click to edit...',
-        callback : function(value, settings) {
+        event : "click",
+        callback : function(value, settings, event) {
             if(value) {
             	$(this).removeClass('empty_edit');
             } else {
             	$(this).addClass('empty_edit');
             }
         }
-    });     
-    
+    });
+
+    $('.edit').on('click', function(event, $editor) {
+        console.log( $(this) );
+    });
+
     $('.click-to-open').click(function() {
         var id = $(this).attr('id');
         id = id.replace('to-', '');

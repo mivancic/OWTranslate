@@ -1,5 +1,6 @@
 {*?template charset=UTF-8*}
-
+{ezscript_require(array('jquery.jeditable.js', 'owtranslate.js'))}
+{ezcss_require(array('owtranslate.css'))}
 {*if $numberTotal|not|and( ezhttp_hasvariable( 'todo', 'get' )|not )*}
 	<div class="box-header">
 	    <div class="button-left">
